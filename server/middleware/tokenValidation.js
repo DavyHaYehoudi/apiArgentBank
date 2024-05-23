@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken')
-const { restart } = require('nodemon')
+import jwt from "jsonwebtoken";
 
-module.exports.validateToken = (req, res, next) => {
+const tokenValidation  = (req, res, next) => {
   let response = {}
 
   try {
@@ -23,3 +22,4 @@ module.exports.validateToken = (req, res, next) => {
 
   return res.status(response.status).send(response)
 }
+export default tokenValidation

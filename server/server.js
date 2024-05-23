@@ -1,12 +1,11 @@
-const express = require('express')
-const dotEnv = require('dotenv')
-const cors = require('cors')
-const swaggerUi = require('swagger-ui-express')
-const yaml = require('yamljs')
+import express from "express";
+import cors from "cors";
+import swaggerUi from "swagger-ui-express"
+import yaml from "yamljs"
 const swaggerDocs = yaml.load('./swagger.yaml')
-const dbConnection = require('./database/connection')
+import dbConnection from "./database/connection.js"
+import userRoutes from "./routes/userRoutes.js"
 
-dotEnv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -22,7 +21,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Handle custom routes
-app.use('/api/v1/user', require('./routes/userRoutes'))
+app.use('/api/v1/user', userRoutes)
 
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
