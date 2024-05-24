@@ -30,8 +30,8 @@ const serviceUser = {
 
   getUserProfile: async (serviceData) => {
     try {
-      jwtToken = serviceData.headers.authorization.split("Bearer")[1].trim();
-      decodedJwtToken = jwt.decode(jwtToken);
+     const jwtToken = serviceData.headers.authorization.split("Bearer")[1].trim();
+      const decodedJwtToken = jwt.decode(jwtToken);
       const user = await User.findOne({ _id: decodedJwtToken.id });
 
       if (!user) {
@@ -47,13 +47,14 @@ const serviceUser = {
 
   loginUser: async (serviceData) => {
     try {
+      console.log('serviceData :',serviceData);
       const user = await User.findOne({ email: serviceData.email });
 
       if (!user) {
         throw new Error("User not found!");
       }
 
-      const isValid = await bcrypt.compare(serviceData.password, user.password);
+      const isValid =  bcrypt.compare(serviceData.password, user.password);
 
       if (!isValid) {
         throw new Error("Password is invalid");

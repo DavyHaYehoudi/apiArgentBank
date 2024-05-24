@@ -4,7 +4,6 @@ const userController ={
 
    createUser : async (req, res) => {
     let response = {}
-  console.log('req.body :',req.body);
     try {
       const responseFromService = await serviceUser.createUser(req.body)
       response.status = 200
@@ -20,6 +19,7 @@ const userController ={
   },
   
    loginUser : async (req, res) => {
+
     let response = {}
   
     try {
@@ -38,7 +38,6 @@ const userController ={
   
    getUserProfile : async (req, res) => {
     let response = {}
-  
     try {
       const responseFromService = await serviceUser.getUserProfile(req)
       response.status = 200
@@ -48,7 +47,7 @@ const userController ={
       console.log('Error in userController.js')
       response.status = 400
       response.message = error.message
-    }
+    } 
   
     return res.status(response.status).send(response)
   },

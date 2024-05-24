@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 const tokenValidation  = (req, res, next) => {
   let response = {}
-
   try {
     if (!req.headers.authorization) {
       throw new Error('Token is missing from header')
