@@ -32,7 +32,8 @@ const serviceUser = {
     try {
      const jwtToken = serviceData.headers.authorization.split("Bearer")[1].trim();
       const decodedJwtToken = jwt.decode(jwtToken);
-      const user = await User.findOne({ _id: decodedJwtToken.id });
+      // const user = await User.findOne({ _id: decodedJwtToken.id });
+      const user = await User.findOne({ _id: decodedJwtToken.id }).select('-createdAt -updatedAt');
 
       if (!user) {
         throw new Error("User not found!");
@@ -47,14 +48,15 @@ const serviceUser = {
 
   loginUser: async (serviceData) => {
     try {
-      console.log('serviceData :',serviceData);
       const user = await User.findOne({ email: serviceData.email });
 
       if (!user) {
         throw new Error("User not found!");
       }
 
-      const isValid =  bcrypt.compare(serviceData.password, user.password);
+      console.log('serviceData.password:', serviceData.password)
+      const isValid = await bcrypt.compare(serviceData.password, user.password);
+      console.log('isValid:', isValid)
 
       if (!isValid) {
         throw new Error("Password is invalid");
@@ -86,7 +88,7 @@ const serviceUser = {
           lastName: serviceData.body.lastName,
         },
         { new: true }
-      );
+      ).select('-createdAt -updatedAt');
 
       if (!user) {
         throw new Error("User not found!");
